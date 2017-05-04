@@ -1,7 +1,7 @@
 Large scale data analysis group 18:
-Lucian Tirca\n
-Martin Metaksov\n
-Pantelis Kouris\n
-____\n
+Lucian Tirca<br />
+Martin Metaksov<br />
+Pantelis Kouris<br />
+<br /><br />
 Using Python2.7
 
