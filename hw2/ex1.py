@@ -1,6 +1,4 @@
-import unittest
 from itertools import combinations
-from unittest import TestCase
 
 import numpy
 import time
@@ -9,19 +7,19 @@ import time
 TEST_FILENAME = "docword.kos.txt"
 
 
-def jaccard_similarity(a, b):
-    if isinstance(a, set):
-        c = a.intersection(b)
-    else:
-        c = set(a).intersection(b)
-    return float(len(c)) / (len(a) + len(b) - len(c))
+class Ex1:
+    @staticmethod
+    def jaccard_similarity(a, b):
+        if isinstance(a, set):
+            c = a.intersection(b)
+        else:
+            c = set(a).intersection(b)
+        return float(len(c)) / (len(a) + len(b) - len(c))
 
+    @staticmethod
+    def jaccard_distance(a, b):
+        return 1 - Ex1.jaccard_similarity(a, b)
 
-def jaccard_distance(a, b):
-    return 1 - jaccard_similarity(a, b)
-
-
-class Tests(TestCase):
     def tic(self, task_name):
         self.task_name = task_name
         self.timer = time.time()
@@ -29,7 +27,9 @@ class Tests(TestCase):
     def tac(self):
         print("Running time for " + self.task_name + ": " + str(time.time() - self.timer) + "s")
 
-    def setUp(self):
+    def __init__(self):
+        self.task_name = ""
+        self.timer = time.time()
         self.tic("loading data")
         print("Loading data...")
         # Data structure: docID | wordID | count
@@ -49,8 +49,7 @@ class Tests(TestCase):
                 all_shingles.append(shingles_doc)
         return all_shingles
 
-    @unittest.SkipTest
-    def test_ex1p1(self):
+    def ex1p1(self):
         print("Obtaining shingles...")
         self.tic("obtaining shingles")
         shingles = self.get_shingles()
@@ -60,7 +59,7 @@ class Tests(TestCase):
         self.tic("computing jaccard similarities")
         js = []
         for u, v in combinations(shingles, 2):
-            js.append(jaccard_similarity(u, v))
+            js.append(Ex1.jaccard_similarity(u, v))
         self.tac()
         print("Successfully computed jaccard similarities")
         print("Jaccard similarity average: " + str(sum(js) / float(len(js))))
@@ -71,8 +70,7 @@ class Tests(TestCase):
         out.close()
         print("Finished writing jaccard similarities to file")
 
-    # @unittest.SkipTest
-    def test_ex1p2(self):
+    def ex1p2(self):
         K = 100
         print("Computing MinHash signatures...")
         self.tic("computing MinHash signatures")
@@ -80,14 +78,19 @@ class Tests(TestCase):
         self.tac()
         print("Finished computing MinHash signatures")
 
-    @unittest.SkipTest
     def test_ex1p3(self):
         pass
 
-    @unittest.SkipTest
     def test_ex1p4(self):
         pass
 
-    @unittest.SkipTest
     def test_ex1p5(self):
         pass
+
+
+ex = Ex1()
+# ex.ex1p1()
+ex.ex1p2()
+ex.ex1p3()
+ex.ex1p4()
+ex.ex1p5()
