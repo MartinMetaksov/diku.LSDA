@@ -43,6 +43,11 @@ Temporary Items
 .apdisk
 
 # Data Science related files
-*.txt
 *.train
 *.truth
+
+# the LSDA VM
+/vm
+
+# LaTeX Stuff
+*.log
