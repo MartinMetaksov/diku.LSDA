@@ -1,35 +1,27 @@
 import random
 from itertools import combinations
 
-import numpy as np
+import numpy
 import time
 
 # KOS blog entries (orig source: dailykos.com) D = 3430; W = 6906; N = 467714
 from hw2.config import basedir
 
-DOCWORDS = "docword.kos.txt"
-WORDS = "vocab.kos.txt"
+TEST_FILENAME = "docword.kos.txt"
 
 
 class Ex1:
-    def pairwise_jaccard(self, X):
-        """
-        Computes the Jaccard distance between the rows in X.
-        Returns a matrix containing the jaccard distance
-        """
-        self.tic("computing pairwise jaccard similarities")
-        X = X.astype(bool).astype(int)
-        # interested in documents relation to each other and not the shingles
-        intersect = X.T.dot(X)
-        row_sums = intersect.diagonal()
-        unions = row_sums[:, None] + row_sums - intersect
-        dist = 1.0 - intersect / unions
-        self.tac()
-        return dist
+    @staticmethod
+    def jaccard_similarity(a, b):
+        if isinstance(a, set):
+            c = a.intersection(b)
+        else:
+            c = set(a).intersection(b)
+        return float(len(c)) / (len(a) + len(b) - len(c))
 
     @staticmethod
-    def pairwise_jaccard_diff(X):
-        return 1.0 - Ex1.pairwise_jaccard(X)
+    def jaccard_distance(a, b):
+        return 1 - Ex1.jaccard_similarity(a, b)
 
     @staticmethod
     def find_next_prime(n):
@@ -51,41 +43,61 @@ class Ex1:
         self.timer = time.time()
 
     def tac(self):
-        print("Running time for " + self.task_name + ": " + str(time.time() - self.timer) + "s")
-        print("Finished task: " + self.task_name + "\n")
+        print("Running time for " + self.task_name + ": " + str(time.time() - self.timer) + "s\n")
+        print("Finished task: " + self.task_name)
 
     def __init__(self):
         self.task_name = ""
         self.timer = time.time()
         self.tic("loading data")
         # Data structure: docID | wordID | count
-        self.D = 3430
-        self.W = 6906
-        self.N = 467714
-        self.data = np.loadtxt(basedir + "/data/" + DOCWORDS, skiprows=3, dtype=int)
+        self.data = numpy.loadtxt(basedir + "/data/" + TEST_FILENAME, skiprows=3)
         self.tac()
-        self.tic("obtaining binary matrix")
-        self.binary_matrix = self.get_binary_matrix()
+        self.tic("obtaining shingles")
+        self.shingles = self.get_shingles()
+        self.binary_matrix = self.get_binary_matrix(self.shingles)
         self.tac()
 
-    def get_binary_matrix(self):
-        bin_mat = np.zeros([self.W, self.D])
-        for line in self.data:
-            bin_mat[line[1] - 1, line[0] - 1] = 1
-        return bin_mat
+    def get_shingles(self):
+        all_shingles = []
+        shingles_doc = set()
+        for line in range(0, len(self.data)):
+            shingles_doc.add(self.data[line, 1])
+            if self.data[line, 0] != self.data[line - 1, 0] and line > 1:
+                all_shingles.append(shingles_doc)
+                shingles_doc = set()
+            if line == (len(self.data) - 1):
+                all_shingles.append(shingles_doc)
+        return all_shingles
 
-    def jaccard_similarities(self, out_file):
-        self.pairwise_jaccard(self.binary_matrix)
+    def jaccard_similarities(self, collection, c_name, filename="out.txt"):
+        self.tic("computing jaccard similarities for " + c_name)
+        js = []
+        for u, v in combinations(collection, 2):
+            js.append(Ex1.jaccard_similarity(u, v))
+        self.tac()
+        print("Jaccard similarity average: " + str(sum(js) / float(len(js))))
         self.tic("writing jaccard similarities to file")
-        out = open(out_file, "w")
+        out = open(filename, "w")
         out.write(str("\n".join(map(lambda n: '%.15f' % n, js))))
         out.close()
         self.tac()
+
+    def get_all_shingle_values(self, data):
+        all_shingle_values = set()
+        for s in data:
+            all_shingle_values
+
+    def get_binary_matrix(self, data):
+
+        print("")
+        return ""
 
     '''
     To generate the K random hash functions, we have been inspired by another project, which we have found on GitHub:
     https://github.com/chrisjmccormick/MinHash
     '''
+
     def k_signatures(self, k):
         print("Finding the highest shingle value: " + str())
         highest_shingles = []
@@ -93,7 +105,7 @@ class Ex1:
             highest_shingles.append(max(shingle))
         highest_shingle = max(highest_shingles)
         print("Highest val: " + str(highest_shingle))
-        next_prime = self.find_next_prime(int(np.ceil(highest_shingle)))
+        next_prime = self.find_next_prime(int(numpy.ceil(highest_shingle)))
         print("Next prime: " + str(next_prime))
 
         # We will generate K random hash function with the form h(x) = (a*x + b) % c
@@ -145,7 +157,7 @@ class Ex1:
 
 ex = Ex1()
 # Task 1
-ex.jaccard_similarities(out_file="out11.txt")
+# ex.jaccard_similarities(collection=ex.shingles, c_name="shingles", filename="output11.txt")
 # Task 2
 # ex.k_signatures(k=100)
 ex.ex1p3()
