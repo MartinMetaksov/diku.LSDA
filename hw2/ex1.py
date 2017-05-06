@@ -69,25 +69,24 @@ class Ex1:
                 all_shingles.append(shingles_doc)
         return all_shingles
 
-    def ex1p1(self):
-        self.tic("computing jaccard similarities")
+    def jaccard_similarities(self, collection, c_name, filename="out.txt"):
+        self.tic("computing jaccard similarities for " + c_name)
         js = []
-        for u, v in combinations(self.shingles, 2):
+        for u, v in combinations(collection, 2):
             js.append(Ex1.jaccard_similarity(u, v))
         self.tac()
         print("Jaccard similarity average: " + str(sum(js) / float(len(js))))
         self.tic("writing jaccard similarities to file")
-        out = open("ex1p1out.txt", "w")
+        out = open(filename, "w")
         out.write(str("\n".join(map(lambda n: '%.15f' % n, js))))
         out.close()
         self.tac()
 
     '''
-    To generate the 100 random hash functions, we have been inspired by another project, which we have found on GitHub:
+    To generate the K random hash functions, we have been inspired by another project, which we have found on GitHub:
     https://github.com/chrisjmccormick/MinHash
     '''
-    def ex1p2(self):
-        K = 100
+    def k_signatures(self, k):
         print("Finding the highest shingle value: " + str())
         highest_shingles = []
         for shingle in self.shingles:
@@ -97,31 +96,31 @@ class Ex1:
         next_prime = self.find_next_prime(int(numpy.ceil(highest_shingle)))
         print("Next prime: " + str(next_prime))
 
-        # We will generate 100 random hash function with the form h(x) = (a*x + b) % c
+        # We will generate K random hash function with the form h(x) = (a*x + b) % c
         # where a and b are random coefficients and c is a prime number > highest_shingle.
 
-        def get_rand_coefficients(k):
+        def get_rand_coefficients(K):
             rand_list = []
             # ensure a unique index is given
-            while k > 0:
+            while K > 0:
                 rand_index = random.randint(0, highest_shingle)
                 while rand_index in rand_list:
                     rand_index = random.randint(0, highest_shingle)
                 rand_list.append(rand_index)
-                k = k - 1
+                K = K - 1
             return rand_list
 
         # 100 different coefficients for a and 100 more for b
-        a = get_rand_coefficients(K)
-        b = get_rand_coefficients(K)
+        a = get_rand_coefficients(k)
+        b = get_rand_coefficients(k)
 
-        self.tic("computing MinHash signatures")
+        self.tic("computing MinHash signatures with k=" + str(k))
         # documents by signatures matrix
         signatures = []
 
         for shingle in self.shingles:
             signature = []
-            for i in range(0, K):
+            for i in range(0, k):
                 smallest_hash_code = next_prime + 1
                 for token in shingle:
                     hash_code = (a[i] * token + b[i]) % next_prime
@@ -132,6 +131,7 @@ class Ex1:
             signatures.append(signature)
 
         self.tac()
+        return signatures
 
     def ex1p3(self):
         pass
@@ -144,8 +144,10 @@ class Ex1:
 
 
 ex = Ex1()
-# ex.ex1p1()
-ex.ex1p2()
+# Task 1
+# ex.jaccard_similarities(collection=ex.shingles, c_name="shingles", filename="output11.txt")
+# Task 2
+# ex.k_signatures(k=100)
 ex.ex1p3()
 ex.ex1p4()
 ex.ex1p5()
