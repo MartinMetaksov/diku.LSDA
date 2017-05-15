@@ -49,5 +49,8 @@ Temporary Items
 # the LSDA VM
 /vm
 
+# data folder for HW3 (over 1GB)
+/HW3/data/*
+
 # LaTeX Stuff
 *.log
