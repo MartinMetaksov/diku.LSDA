@@ -54,7 +54,7 @@ Temporary Items
 
 # LaTeX Stuff
 *.log
-/hw1/data/
-/hw2/data/
-/hw3/data/
-/hw4/data/
+/hw1/data/*
+/hw2/data/*
+/hw3/data/*
+/hw4/data/*

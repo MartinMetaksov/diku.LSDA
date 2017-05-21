@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d9e6e353-786c-467b-8562-7c54bbdc4fff" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hw4/slides/DeepLearningPart1TF.pdf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hw4/slides/T2_LSDA.pdf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hw4/data/LSDA2017WeedCropTest.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hw4/data/LSDA2017WeedCropTrain.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hw4/data/LSDA2017WeedCropValidation.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,8 +41,8 @@
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="59" column="10" lean-forward="false" selection-start-line="59" selection-start-column="10" selection-end-line="59" selection-end-column="10" />
+            <state relative-caret-position="183">
+              <caret line="58" column="11" lean-forward="true" selection-start-line="58" selection-start-column="11" selection-end-line="58" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -680,7 +676,14 @@
       <option name="project" value="LOCAL" />
       <updated>1495364147508</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="added hw4 slides">
+      <created>1495364275296</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1495364275296</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -752,7 +755,8 @@
     <MESSAGE value="ex. 1.2 finished" />
     <MESSAGE value="remade 1.1, pairwise_jaccard returns the distance (and we need the similarities) - so this must be fixed. Secondly, I don't know if writing it to the file works as it should be, because it couldn't finish computing before I had to go out - please fix :D" />
     <MESSAGE value="added hw4" />
-    <option name="LAST_COMMIT_MESSAGE" value="added hw4" />
+    <MESSAGE value="added hw4 slides" />
+    <option name="LAST_COMMIT_MESSAGE" value="added hw4 slides" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -986,8 +990,8 @@
     <entry file="file://$PROJECT_DIR$/hw2/src/test_something.py" />
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="59" column="10" lean-forward="false" selection-start-line="59" selection-start-column="10" selection-end-line="59" selection-end-column="10" />
+        <state relative-caret-position="183">
+          <caret line="58" column="11" lean-forward="true" selection-start-line="58" selection-start-column="11" selection-end-line="58" selection-end-column="11" />
           <folding />
         </state>
       </provider>
