@@ -94,6 +94,10 @@ cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_
 # Adam optimizer, default parameters learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1e-08
 my_opt =  tf.train.AdamOptimizer(0.001)
 train_step = my_opt.minimize(cross_entropy)
+#calculating gradients
+grads=my_opt.compute_gradients(cross_entropy)
+grad_norms=[tf.nn.l2_loss(g) for g,v in grads]
+grad_norm=tf.add_n(grad_norms)
 
 # 0-1 loss
 correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1)) # second argmax argument specifies axis
@@ -109,6 +113,11 @@ with sess.as_default():
             train_accuracy = accuracy.eval(feed_dict={x:batch[0], y_: batch[1], keep_prob: 1.0})
             print("step %d, training accuracy %g"%(i, train_accuracy))
         train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
+#stopping criterion
+        l,gn=sess.run([cross_entropy,grad_norm], feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
+        if (gn<1e-4):
+           print("Stopped {0} ".format(i))
+           break
 
     print("test accuracy %g"%accuracy.eval(feed_dict={x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
 
