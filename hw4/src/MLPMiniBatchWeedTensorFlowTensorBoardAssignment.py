@@ -35,7 +35,7 @@ flags.DEFINE_integer('maxIter', 10000, 'number of iterations')
 flags.DEFINE_integer('batchSize', 64, 'batch size')
 flags.DEFINE_integer('noHidden1', 64, 'size of first hidden layer')
 flags.DEFINE_integer('noHidden2', 32, 'size of second hidden layer')
-flags.DEFINE_float('lr', 0.0008, 'initial learning rate')
+flags.DEFINE_float('lr', 0.0004, 'initial learning rate')
 
 # Read data
 dataTrain = tf.contrib.learn.datasets.base.load_csv_without_header(filename=FLAGS.data_dir + '/LSDA2017WeedCropTrain.csv', target_dtype=np.int, features_dtype=np.float32, target_column=-1)
