@@ -15,4 +15,16 @@ https://sid.erda.dk/share_redirect/hm33L7oPna - landsat_train.csv
 https://sid.erda.dk/share_redirect/ex9cLH1QU1 - landsat_test.csv
 
 # Hadoop - Airlines data
-https://absalon.instructure.com/files/1328110/download?download_frd=1 - hadoop folder
+https://absalon.instructure.com/files/1328110/download?download_frd=1 - hadoop/airline_data folder
+
+### MOUNT DATA FROM SMB SHARE :
+## ON HOST
+# powershell create smb shared folder - run as administrator
+New-SmbShare -Name "lsda_data" -Path "C:\Code\DIKU\LSDA\exam\data" -Temporary -ReadAccess "Lu"
+net config server /autodisconnect:-1
+
+## ON VM : 
+# ensure cifs-utils is installed
+sudo apt-get install cifs-utils
+# link folder - replace IP address and username accordingly
+sudo mount -t cifs -o username=Lu //192.168.111.192/lsda_data ./data
