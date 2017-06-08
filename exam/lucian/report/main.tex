@@ -1,0 +1,55 @@
+\documentclass{article}
+\input{Macros.tex}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{lipsum} 
+\geometry{a4paper}
+\usepackage[backend=biber,style=ieee]{biblatex}
+\usepackage{comment}
+\usepackage{mathtools}
+\usepackage{xparse}
+\usepackage{pgfmath}
+\usepackage{etoolbox}
+\usepackage{multicol}
+\usepackage{listings}
+
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{breqn}
+\graphicspath{ {img/} }
+\setlength{\columnsep}{1cm}
+
+\bibliography{ref.bib}
+
+\begin{document}
+
+\title{\textbf{Large Scale Data Analysis Exam}}
+\author{\textbf{Lucian Tirca (hrn947@alumni.ku.dk)}}
+\maketitle
+
+
+\section{Deep Learning}
+\input{1_deeplearning.tex}
+
+
+\section{Nearest Neighbors}
+\input{2_neighbors.tex}
+
+
+\section{Locality Sensitive Hashing}
+\input{3_lsh.tex}
+
+
+\section{Tree Ensembles for Huge Data}
+\input{4_trees.tex}
+
+\section{Hadoop}
+\input{5_hadoop.tex}
+
+
+\section*{Appendix} 
+\input{Appendix.tex}
+
+\printbibliography
+\end{document}

@@ -59,3 +59,5 @@ Temporary Items
 /hw3/data/*
 /hw4/data/*
 /hw5/data/*
+/exam/data/*
+!readme.md
