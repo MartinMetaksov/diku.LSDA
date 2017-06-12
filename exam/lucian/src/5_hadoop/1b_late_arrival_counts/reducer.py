@@ -37,5 +37,5 @@ for line in sys.stdin:
     
 # We have to output the word count for the last airline ID!
 if old_aid is not None:
-    print('%s\t%s' % (old_aid, (no_flights, no_delays, no_delays*1.0/no_flights)))
+    print('%s\t%s\t%s\t%s' % (old_aid, no_flights, no_delays, no_delays*1.0/no_flight)))
     
