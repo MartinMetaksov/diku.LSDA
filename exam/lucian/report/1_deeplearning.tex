@@ -2,20 +2,8 @@
 \begin{lstlisting}[language={},numbers=left,numberstyle=\tiny,frame = single]
 Variance for redshift is 0.010498
 \end{lstlisting}
-
-\begin{lstlisting}[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]
-Iteration: 30000 / 30000
-final training accuracy: 0.000976738
-final test accuracy:  0.00126395 
-final validation accuracy:  0.0010332
-INFO:tensorflow:Restoring parameters from tensor_logs/bestNetwork
-best training accuracy: 0.000954459 
-best test accuracy:  0.00125532 
-best validation accuracy:  0.000915237
-\end{lstlisting}
-
 \subsection{Deep Network for Regression}
-I have tested both the GradientdescentOptimizer and the AdamOptimizer, and saw that the AdamOptimizer is superior in performance. However, plots of both are available below.
+I have tested both the GradientDescentOptimizer and the AdamOptimizer, and saw that the AdamOptimizer is superior in performance. However, plots of both are available below.
 
 Some of the lines I have changed were:
 
@@ -36,6 +24,19 @@ loss = tf.reduce_mean(tf.square(model_output - y_target), name='mean_squared_err
 my_opt =  tf.train.AdamOptimizer(FLAGS.lr)
 train_step = my_opt.minimize(loss)
 \end{lstlisting}
+
+
+\begin{lstlisting}[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]
+Iteration: 30000 / 30000
+final training accuracy: 0.000976738
+final test accuracy:  0.00126395 
+final validation accuracy:  0.0010332
+INFO:tensorflow:Restoring parameters from tensor_logs/bestNetwork
+best training accuracy: 0.000954459 
+best test accuracy:  0.00125532 
+best validation accuracy:  0.000915237
+\end{lstlisting}
+
 
 \subsection{TensorBoard}
 

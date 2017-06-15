@@ -2,7 +2,11 @@
 Due to a omission in my code (forgetting to convert the sparse Jaccard similarity matrix to dense after computing the dot product $Q \cdot P^T$), the computation took an exceptionally long time (2.5 hours). However, after fixing it the computation was sped up. An important thing to add is that the indexes in the point set P are true indices , thus for the real indices one should add 100 to them.
 
 \begin{lstlisting}[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]
+#first run
 ('Bruteforce computation took ', 8975.425826072693, 'sec')
+#second run after fixing Jaccard similarity matrix type
+('Bruteforce computation took ', 283.36371898651123, 'sec')
+('Average Jaccard similarity: ', 0.010597417134263177)
 Similar value number 1 :J(0,733) = 1.000000
 Similar value number 2 :J(1,173) = 0.910112
 Similar value number 3 :J(3,269) = 0.952381
@@ -96,6 +100,7 @@ For the purpose of this implementation, I have chosen to use $r=8$ and $b=13$ af
 \subsection{Verification}
 \begin{lstlisting}[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]
 ('Generating MinHash signatures took ', 303.0851049423218, 'sec')
+('Splitting into LSH buckets took ', 0.8080439567565918, 'sec')
 ('Candidate size: ', 1931)
 ('Number of true pair in the candidate set: ', 43)
 ('Number of true pairs in bruteforce: ', 46)
@@ -105,7 +110,7 @@ For the purpose of this implementation, I have chosen to use $r=8$ and $b=13$ af
 \end{lstlisting}
 
 We can see that these results correspond to the theoretical limits. The difference in terms of execution speed is huge (partly because of the problem with my initial computation), but it can also be proven from the number of operations made . 
-The brute-force approach compares the 100 documents in the query set with another 39761 points, each with 28102 words. Generating MinHash signatures is a lot faster due to its $O(N_documents*k)$ runtime(for every document we compute k hashes).
+The brute-force approach compares the 100 documents in the query set with another 39761 points, each with 28102 words. Generating MinHash signatures is a lot faster due to its $O(N_{documents}\cdot k)$ runtime(for every document we compute k hashes).
 The LSH part is almost instant, since splitting into bands greatly reduces the dimensionality of dataset.
 We can see that we have less than 10\% error rate (43 in the candidate set vs 46 in the true set), and the probability that a far away pair is in the candidate set is much less than 0.01.
 
