@@ -1,0 +1,58 @@
+\subsection{Brute Force}
+
+\subsection{LSH Framework}
+We want to find all pairs between $P$ and $Q$ such that documents with $J(x,q) \ge 0.8$ are reported with probability $\sigma_1\ge 0.9$ and disimillar documents with $J(x,q) \le 0.4$ are reported with probability $\sigma_2\le 0.01$.
+
+Let us first assume we have columns $C_1$ and $C_2$ such that $J(C_1,C_2)=0.8$.
+
+Since $J(C_1,C_2)\ge 0.8$ we want $(C_1,C_2)$ to be a candidate pair: We want them to hash to at least 1 common bucket (at least one band is identical)
+
+$\P{(C_1,C_2) \text{ identical in one particular band}} = 0.8^r$
+
+$\P{(C_1,C_2) \text{ not similar in all of the b bands}} = (1-0.8^r)^b$
+
+Therefore, about $(1-0.8^r)^b$ of the $80\%$-similar columns are false negative(we will miss them).
+
+We will find $1-(1-0.8^r)^b$ pairs of truly similar documents.
+
+Now we assume we have columns $C_1$ and $C_2$ such that $J(C_1,C_2)=0.4$.
+
+Since $J(C_1,C_2)\le 0.8$ we want $(C_1,C_2)$ to hash to no common bucket (all bands should be different)
+
+$\P{(C_1,C_2) \text{ identical in one particular band}} = 0.4^r$
+
+$\P{(C_1,C_2) \text{ identical in at least one of the b bands}} = 1 - (1-0.4^r)^b$
+
+In other words, approximately $ 1 - (1-0.4^r)^b$ pairs of documents with similarity $40\%$ end up becoming candidate pairs.
+
+They are false positives since we will have to examine them (they are candidate pairs) but then it will turn out their similarity is below threshold 0.8.
+
+We now need to solve the system of inequalities:
+$
+\begin{cases}
+	(1-0.8^r)^b<1-\sigma_1\\
+	1 - (1-0.4^r)^b<\sigma_2
+\end{cases}
+\implies\\
+\begin{cases}
+	(1-0.8^r)^b<0.1\\
+	1 - (1-0.4^r)^b<0.01
+\end{cases}
+$
+
+For the purpose of this implementation, I have chosen to use $r=8$ and $b=13$ after verifying that they solve the system using a  "brute-force" approach written in Python.
+
+\subsection{Verification}
+
+
+\subsection{Optimization}
+In order to optimize, we have to impose the additional constraint $k=r \cdot b$ is minimum where $k$ is the size of the MinHash signature(number of universal hash functions generated). This ensures that the space we need to store the LSH tables/Signature matrix is minimized, and the runtime is smaller. We can formulate this as a constrained optimization problem:
+
+$\begin{cases}
+\text{argmin } f(r,b) = r \cdot b \text{ s.t.}\\
+(1-0.8^r)^b - 0.1< 0\\
+1 - (1-0.4^r)^b - 0.01 < 0
+\end{cases}$
+
+This would allow us to use numerical optimization techniques such as the KKT conditions to find a minimum.This can be further parametrized in terms of the Jaccard similarity desired for the similar and dissimilar document thresholds on order to provide a more generic solution. However, that is out of the scope of this course.
+
