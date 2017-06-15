@@ -95,6 +95,7 @@ For the purpose of this implementation, I have chosen to use $r=8$ and $b=13$ af
 
 \subsection{Verification}
 \begin{lstlisting}[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]
+('Generating MinHash signatures took ', 303.0851049423218, 'sec')
 ('Candidate size: ', 1931)
 ('Number of true pair in the candidate set: ', 43)
 ('Number of true pairs in bruteforce: ', 46)
@@ -103,7 +104,10 @@ For the purpose of this implementation, I have chosen to use $r=8$ and $b=13$ af
 ('Probability that a far away pair is in the candidate set: ', 0.0008969085829825304)
 \end{lstlisting}
 
-We can see that these results correspond to the theoretical limits. 
+We can see that these results correspond to the theoretical limits. The difference in terms of execution speed is huge (partly because of the problem with my initial computation), but it can also be proven from the number of operations made . 
+The brute-force approach compares the 100 documents in the query set with another 39761 points, each with 28102 words. Generating MinHash signatures is a lot faster due to its $O(N_documents*k)$ runtime(for every document we compute k hashes).
+The LSH part is almost instant, since splitting into bands greatly reduces the dimensionality of dataset.
+We can see that we have less than 10\% error rate (43 in the candidate set vs 46 in the true set), and the probability that a far away pair is in the candidate set is much less than 0.01.
 
 \subsection{Optimization}
 In order to optimize, we have to impose the additional constraint $k=r \cdot b$ is minimum where $k$ is the size of the MinHash signature(number of universal hash functions generated). This ensures that the space we need to store the LSH tables/Signature matrix is minimized, and the runtime is smaller. We can formulate this as a constrained optimization problem:
