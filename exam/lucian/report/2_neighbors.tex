@@ -1,3 +1,4 @@
+\subsection{Backward Selection}
 \begin{lstlisting}[language={},numbers=left,numberstyle=\tiny,frame = single]
 Fitting for columns [0, 1, 2, 8, 9] for validation...
 CPU times: user 2.44 s, sys: 4 ms, total: 2.45 s
@@ -8,3 +9,6 @@ CPU times: user 26 s, sys: 64 ms, total: 26.1 s
 Wall time: 6.87 s
 Best MSE for test is 0.223736 ...
 \end{lstlisting}
+
+\subsection{Computation of Nearest Neighbors}
+Considering the dimensionality of the dataset, the best way to select features using exact neighbors is (a) Brute-force . This is because we can exploit the fact that the number of points is small(1000), therefore the per-feature cost is $\binom{1000}{2}$ euclidean distance computations. A k-d tree would be prohibitive because it has to check 100000 dimensions for splits when fitting the model, and LSH only approximates the distance.

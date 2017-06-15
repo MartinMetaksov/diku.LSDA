@@ -1,4 +1,55 @@
 \subsection{Brute Force}
+Due to a omission in my code (forgetting to convert the sparse Jaccard similarity matrix to dense after computing the dot product $Q \cdot P^T$), the computation took an exceptionally long time (2.5 hours). However, after fixing it the computation was sped up. An important thing to add is that the indexes in the point set P are true indices , thus for the real indices one should add 100 to them.
+
+\begin{lstlisting}[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]
+('Bruteforce computation took ', 8975.425826072693, 'sec')
+Similar value number 1 :J(0,733) = 1.000000
+Similar value number 2 :J(1,173) = 0.910112
+Similar value number 3 :J(3,269) = 0.952381
+Similar value number 4 :J(9,140) = 1.000000
+Similar value number 5 :J(9,512) = 1.000000
+Similar value number 6 :J(10,765) = 0.952381
+Similar value number 7 :J(11,87) = 1.000000
+Similar value number 8 :J(12,67) = 1.000000
+Similar value number 9 :J(19,761) = 1.000000
+Similar value number 10 :J(23,199) = 1.000000
+Similar value number 11 :J(27,216) = 1.000000
+Similar value number 12 :J(29,138) = 1.000000
+Similar value number 13 :J(33,666) = 1.000000
+Similar value number 14 :J(36,224) = 0.857143
+Similar value number 15 :J(39,23530) = 1.000000
+Similar value number 16 :J(39,23715) = 0.889796
+Similar value number 17 :J(42,694) = 1.000000
+Similar value number 18 :J(43,221) = 1.000000
+Similar value number 19 :J(43,248) = 1.000000
+Similar value number 20 :J(48,211) = 1.000000
+Similar value number 21 :J(53,697) = 1.000000
+Similar value number 22 :J(59,624) = 1.000000
+Similar value number 23 :J(61,211) = 1.000000
+Similar value number 24 :J(69,27473) = 1.000000
+Similar value number 25 :J(73,1196) = 0.894737
+Similar value number 26 :J(76,216) = 1.000000
+Similar value number 27 :J(79,55) = 1.000000
+Similar value number 28 :J(84,316) = 0.857143
+Similar value number 29 :J(85,145) = 0.977273
+Similar value number 30 :J(85,8516) = 0.977273
+Similar value number 31 :J(85,8888) = 0.977273
+Similar value number 32 :J(85,10782) = 0.977273
+Similar value number 33 :J(85,13027) = 0.977273
+Similar value number 34 :J(85,13111) = 1.000000
+Similar value number 35 :J(85,29155) = 0.977273
+Similar value number 36 :J(85,32824) = 1.000000
+Similar value number 37 :J(89,548) = 1.000000
+Similar value number 38 :J(89,658) = 0.888889
+Similar value number 39 :J(92,106) = 0.903846
+Similar value number 40 :J(92,616) = 0.882353
+Similar value number 41 :J(92,659) = 0.903846
+Similar value number 42 :J(92,2302) = 0.882353
+Similar value number 43 :J(92,32757) = 0.882353
+Similar value number 44 :J(93,668) = 0.802817
+Similar value number 45 :J(96,3) = 0.823529
+Similar value number 46 :J(96,618) = 0.869565
+\end{lstlisting}
 
 \subsection{LSH Framework}
 We want to find all pairs between $P$ and $Q$ such that documents with $J(x,q) \ge 0.8$ are reported with probability $\sigma_1\ge 0.9$ and disimillar documents with $J(x,q) \le 0.4$ are reported with probability $\sigma_2\le 0.01$.
@@ -43,7 +94,16 @@ $
 For the purpose of this implementation, I have chosen to use $r=8$ and $b=13$ after verifying that they solve the system using a  "brute-force" approach written in Python.
 
 \subsection{Verification}
+\begin{lstlisting}[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]
+('Candidate size: ', 1931)
+('Number of true pair in the candidate set: ', 43)
+('Number of true pairs in bruteforce: ', 46)
+('False negatives: ', 0.9782608695652174)
+('False positives: ', 0.9777317452097359)
+('Probability that a far away pair is in the candidate set: ', 0.0008969085829825304)
+\end{lstlisting}
 
+We can see that these results correspond to the theoretical limits. 
 
 \subsection{Optimization}
 In order to optimize, we have to impose the additional constraint $k=r \cdot b$ is minimum where $k$ is the size of the MinHash signature(number of universal hash functions generated). This ensures that the space we need to store the LSH tables/Signature matrix is minimized, and the runtime is smaller. We can formulate this as a constrained optimization problem:

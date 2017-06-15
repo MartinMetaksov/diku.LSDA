@@ -1,25 +1,35 @@
 \subsection{Airline Statistics}
 
 \subsubsection*{a) Shortest Flight Distance}
+The minimal distance for airline ID 20436 is 332.
+
 \lstinputlisting[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]{../src/5_hadoop/1a_shortest_flight_distance/out/part-00000.}
 \lstinputlisting[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]{../src/5_hadoop/1a_shortest_flight_distance/hrun.out}
 
 
+
 \subsubsection*{b) Late Arrival Counts}
+The percentage of flight delays for airline ID 20436 is 0.295.
 \lstinputlisting[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]{../src/5_hadoop/1b_late_arrival_counts/out/part-00000.}
 \lstinputlisting[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]{../src/5_hadoop/1b_late_arrival_counts/hrun.out}
 
 
 \subsubsection*{c) Mean and Standard deviation for Arrival Delay}
+The mean and standard deviation for airline ID 20436 are 1.717 and 46.18.
+The mean and Standard deviation have been computed using Wilbur's method : the mapper streams the data, the combiner uses a streaming version of the algorithm, while the reducers use the parallel execution version of the algorithm.
 \lstinputlisting[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]{../src/5_hadoop/1c_mean_std_arrival_delay/out/part-00000.}
 \lstinputlisting[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]{../src/5_hadoop/1c_mean_std_arrival_delay/hrun.out}
 
 \subsubsection*{d) Top-10 Arrival Delays}
+The 10 most delayed flights for airline ID 20436 are 1285, 1298, 291, 1124, 720, 1135, 249, 1248, 733, 756.
+The mappers extract the relevant data, the combiners aggregate it into dictionaries and send it to the reducers.
 \lstinputlisting[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]{../src/5_hadoop/1d_top10_arrival_delays/out/part-00000.}
 \lstinputlisting[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]{../src/5_hadoop/1d_top10_arrival_delays/hrun.out}
 
 
 \subsection{Landsat Statistics}
+The mapper fills up chunks of the data into a larger numpy array. Once the array is filled, they are used to generate predictions all at the same time, therefore speeding up computation considerably.
+
 \lstinputlisting[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]{../src/5_hadoop/2_landsat_stats/out/part-00000.}
 
 \lstinputlisting[language={},numbers=left,numberstyle=\tiny,frame=single,breaklines=true,postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}]{../src/5_hadoop/2_landsat_stats/hrun.out}
